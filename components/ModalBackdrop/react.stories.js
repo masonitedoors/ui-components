@@ -10,9 +10,11 @@ storiesOf('ModalBackdrop', module)
   .add('default', () => {
     const [show, setShow] = useState(true)
 
+    const onOutsideClick = () => console.log('click') || setShow(false)
+
     return (
       <>
-        <ModalBackdrop onOutsideClick={() => console.log('click') || setShow(false)} show={show}>
+        <ModalBackdrop onOutsideClick={onOutsideClick} show={show}>
           <div>Content shows in center</div>
         </ModalBackdrop>
         <Button onClick={() => setShow(true)}>Show Modal</Button>
