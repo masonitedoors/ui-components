@@ -7,7 +7,12 @@ import styles from './style.module.scss'
 const cx = classNames.bind(styles)
 
 const ModalBackdrop = ({
-  children, className, onOutsideClick, show, style,
+  children,
+  className,
+  dismissOnEsc = true,
+  onOutsideClick,
+  show,
+  style,
 }) => {
   const [entered, setEntered] = useState(false)
   const backdropRef = useRef()
@@ -15,6 +20,12 @@ const ModalBackdrop = ({
   useEffect(() => {
     // Inner transition won't fire, if outer transition's `in` is already true.
     setEntered(show)
+
+    const dismissModal = event => ['Esc', 'Escape'].includes(event.key) && onOutsideClick()
+
+    dismissOnEsc && window.addEventListener('keyup', dismissModal)
+
+    return () => window.removeEventListener('keyup', dismissModal)
   }, [])
 
   return (
